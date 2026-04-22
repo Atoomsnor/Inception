@@ -1,0 +1,17 @@
+# syntax=docker/dockerfile:1
+
+FROM	debian:bookworm-slim
+
+RUN		apt-get update && apt-get install -y \
+		mariadb-server && rm -rf /var/lib/apt/lists/*
+
+COPY	conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY	conf/init.sql /etc/mysql/init.sql
+
+COPY	tools/maria_script.sh /etc/mariadb/maria_script.sh
+
+RUN		chmod +x /etc/mariadb/maria_script.sh
+
+EXPOSE	3306
+
+ENTRYPOINT ["/etc/mariadb/maria_script.sh"]
