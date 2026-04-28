@@ -6,16 +6,13 @@ services:
       - .env
     ports:
       - "3306:3306"
-    healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}", "--silent"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
 
-  # wordpress:
-  #   build: ./requirements/wordpress
-  #   container_name: wordpress
-  #   env_file:
-  #     - .env
-  #   depends_on:
-  #     - mariadb
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    ports:
+      - "9000:9000"
