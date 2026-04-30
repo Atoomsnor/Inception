@@ -3,8 +3,7 @@
 FROM	debian:bookworm-slim
 
 RUN		apt-get update && apt-get install -y \
-		php-fpm php-mysql curl \
-		&& rm -rf /var/lib/apt/lists/*
+		php-fpm php-mysql curl mariadb-client php8.2-fpm
 
 COPY	tools/wp_script.sh /etc/wordpress/wp_script.sh
 
