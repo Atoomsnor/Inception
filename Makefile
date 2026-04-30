@@ -1,3 +1,6 @@
+all: env up
+
+
 up:
 	docker compose -f srcs/docker-compose.yml up --build
 
@@ -7,6 +10,9 @@ down:
 re:
 	docker compose -f srcs/docker-compose.yml down -v
 	docker compose -f srcs/docker-compose.yml up --build
+
+env:
+	cp ~/Desktop/env_temp ./srcs/.env
 
 start: up
 
