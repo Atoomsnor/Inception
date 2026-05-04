@@ -1,5 +1,4 @@
-all: env up
-
+all: env setup up
 
 up:
 	docker compose -f srcs/docker-compose.yml up --build
@@ -11,8 +10,11 @@ re:
 	docker compose -f srcs/docker-compose.yml down -v
 	docker compose -f srcs/docker-compose.yml up --build
 
+setup:
+	mkdir -p /home/roversch/data/WordPress /home/roversch/data/mysql
+
 env:
-	cp ~/Desktop/env_temp ./srcs/.env
+	cp ~/env_temp ./srcs/.env
 
 start: up
 
