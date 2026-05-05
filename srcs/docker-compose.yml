@@ -1,6 +1,5 @@
 services:
   mariadb:
-    image: mariadb
     build: ./requirements/mariadb
     container_name: mariadb
     env_file:
@@ -14,7 +13,6 @@ services:
     restart: unless-stopped
 
   wordpress:
-    image: wordpress
     build: ./requirements/wordpress
     container_name: wordpress
     depends_on:
@@ -30,8 +28,9 @@ services:
     restart: unless-stopped
 
   nginx:
-    image: nginx
-    build: ./requirements/nginx
+    build:
+      context: ./
+      dockerfile: ./requirements/nginx/dockerfile
     container_name: nginx
     depends_on:
       - wordpress
@@ -39,9 +38,9 @@ services:
       - .env
     networks:
       - inception
+    # non local
     # ports:
     #   - "443:443"
-    # localhost
     ports:
       - "8443:443"
     volumes:
