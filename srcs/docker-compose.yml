@@ -1,37 +1,69 @@
 services:
   mariadb:
+    image: mariadb
     build: ./requirements/mariadb
     container_name: mariadb
     env_file:
       - .env
-    ports:
-      - "3306:3306"
+    networks:
+      - inception
+    # ports:
+    #   - "3306:3306"
+    volumes:
+      - mysql:/var/lib/mysql
+    restart: unless-stopped
 
   wordpress:
+    image: wordpress
     build: ./requirements/wordpress
     container_name: wordpress
-    env_file:
-      - .env
     depends_on:
       - mariadb
-    ports:
-      - "9000:9000"
-    volumes:
-      - wordpress:/var/www/html
-
-  nginx:
-    build: ./requirements/nginx
-    container_name: nginx
     env_file:
       - .env
+    networks:
+      - inception
+    # ports:
+    #   - "9000:9000"
+    volumes:
+      - wordpress:/var/www/html
+    restart: unless-stopped
+
+  nginx:
+    image: nginx
+    build: ./requirements/nginx
+    container_name: nginx
     depends_on:
       - wordpress
+    env_file:
+      - .env
+    networks:
+      - inception
+    # ports:
+    #   - "443:443"
+    # localhost
     ports:
       - "8443:443"
     volumes:
       - wordpress:/var/www/html
+    restart: unless-stopped
 
 volumes:
   wordpress:
+    name: wordpress
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/roversch/data/wordpress
+  mysql:
+    name: mysql
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: /home/roversch/data/mysql
 
-#need to have restart: always in the future
+networks:
+  inception:
+    driver: bridge
