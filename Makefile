@@ -43,8 +43,8 @@ clean:
 re: clean all
 
 fclean: clean
-# 	sudo rm -rf /home/roversch/data/wordpress/*
-# 	sudo rm -rf /home/roversch/data/mysql/*
+	sudo rm -rf /home/roversch/data/wordpress/*
+	sudo rm -rf /home/roversch/data/mysql/*
 	rm -f $(SSL_KEY) $(SSL_CRT)
 
 restart: down up
