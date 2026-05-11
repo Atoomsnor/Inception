@@ -45,7 +45,9 @@ docker logs mariadb              # view container logs
 docker exec -it mariadb bash     # shell into container
 mariadb -u"root" -p"password"    # mariadb access with root
 use "database" ($MYSQL_DATABASE) # select correct database
+show tables;                     # shows created SELECT options
 SELECT * from wp_comments \G;    # show organised comments
+SELECT * from wp_users \G;       # show created users
 ```
 
 ## Port swaps
