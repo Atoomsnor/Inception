@@ -48,6 +48,20 @@ use "database" ($MYSQL_DATABASE) # select correct database
 SELECT * from wp_comments \G;    # show organised comments
 ```
 
+## Port swaps
+### Nginx <-> WWW
+`.env` domain name to have `:"port"` behind it
+`docker-compose.yml` change leftside nginx port `"port":433`
+
+### Nginx <-> WP+PHP
+`/wordpress/tools/wp_script.sh` change the `sed` line `0.0.0.0:"port"` 
+`/wordpress/dockerfile` change `EXPOSE	"port"`
+`/nginx/conf/nginx.conf` change `fastcgi_pass wordpress:"port";`
+
+### WP+PHP <-> MariaDB
+`/wordpress/tools/wp_script.sh` add port `--dbhost=mariadb:"port"`
+`/mariadb/conf/50-server.conf` add line `port = "port"`
+
 ## Data storage
 
 - Volumes are stored at `~/roversch/data`
